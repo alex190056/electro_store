@@ -12,7 +12,7 @@ class Item:
         return self.quantity_in_store * self.price_per_unit
 
     def apply_discount(self):
-        return self.get_total_price() * self.pay_rate
+        self.price_per_unit = self.price_per_unit * self.pay_rate
 
 
 item1 = Item('Смартфон', 10000, 20)
