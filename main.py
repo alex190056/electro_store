@@ -1,3 +1,4 @@
+import csv
 class Item:
     pay_rate = 0.8
     all = []
@@ -8,21 +9,45 @@ class Item:
         self.quantity_in_store = quantity_in_store
         self.all.append(self)
 
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        if len(name) > 10:
+            raise Exception('Длина наименования товара превышает 10 символов')
+        self.__name = name
+
+
     def get_total_price(self):
         return self.quantity_in_store * self.price_per_unit
 
     def apply_discount(self):
         self.price_per_unit = self.price_per_unit * self.pay_rate
 
+    @classmethod
+    def instantiate_from_csv(cls):
+        with open('items.csv', 'r', encoding='windows-1251') as f:
+            reader = csv.reader(f)
+            rows = []
+            for row in reader:
+                rows.append(row)
+            for a in rows[1:len(rows)]:
+                if Item.is_integer(float(a[1])):
+                    a[1] = int(a[1])
+                if Item.is_integer(float(a[2])):
+                    a[2] = int(a[2])
+                cls(a[0], a[1], a[2])
 
-item1 = Item('Смартфон', 10000, 20)
-item2 = Item('Ноутбук', 20000, 5)
+    @staticmethod
+    def is_integer(num):
+        if num - int(num) == 0:
+            return True
+        else:
+            return False
 
-print(item1.get_total_price())
-print(item2.get_total_price())
+    def __repr__(self):
+        return f'(Название товара: {self.__name}, Цена за штуку: {self.price}, Количество: {self.count})'
 
-Item.pay_rate = 0.8
-item1.apply_discount()
-print(item1.price_per_unit)
-print(item2.price_per_unit)
-print(Item.all)
+
