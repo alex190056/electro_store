@@ -3,7 +3,7 @@ from main import Item
 
 def test_calculate_total_price():
     item = Item("Ноутбук", 20000, 5)
-    assert item.get_total_price() == 100000
+    assert item.calculate_total_price() == 100000
 
 
 def test_is_integer():

@@ -1,13 +1,14 @@
 import csv
+
 class Item:
-    pay_rate = 0.8
+    pay_rate = 1
     all = []
 
-    def __init__(self, product_name, price_per_unit, quantity_in_store):
-        self.product_name = product_name
-        self.price_per_unit = price_per_unit
-        self.quantity_in_store = quantity_in_store
-        self.all.append(self)
+    def __init__(self, name, price, count):
+        self.__name = name
+        self.price = price
+        self.count = count
+        Item.all.append(self)
 
     @property
     def name(self):
@@ -19,12 +20,11 @@ class Item:
             raise Exception('Длина наименования товара превышает 10 символов')
         self.__name = name
 
-
-    def get_total_price(self):
-        return self.quantity_in_store * self.price_per_unit
+    def calculate_total_price(self):
+        return self.price * self.count
 
     def apply_discount(self):
-        self.price_per_unit = self.price_per_unit * self.pay_rate
+        self.price = self.price * self.pay_rate
 
     @classmethod
     def instantiate_from_csv(cls):
