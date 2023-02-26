@@ -50,4 +50,8 @@ class Item:
     def __repr__(self):
         return f'(Название товара: {self.__name}, Цена за штуку: {self.price}, Количество: {self.count})'
 
+    def __str__(self):
+        return f'{self.__name}'
+
+
 
