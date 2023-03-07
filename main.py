@@ -1,5 +1,6 @@
 import csv
 
+
 class Item:
     pay_rate = 1
     all = []
@@ -47,11 +48,36 @@ class Item:
         else:
             return False
 
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.count + other.count
+
     def __repr__(self):
-        return f'(Название товара: {self.__name}, Цена за штуку: {self.price}, Количество: {self.count})'
+        return f'{self.__class__.__name__}({self.__name}, {self.price}, {self.count})'
 
     def __str__(self):
         return f'{self.__name}'
 
 
+class Phone(Item):
 
+    def __init__(self, name, price, count, sims):
+        super().__init__(name, price, count)
+        self.sims = sims
+        # if number_of_sim == 0:
+        #     raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
+
+    @property
+    def number_of_sim(self):
+        return self.sims
+
+    @number_of_sim.setter
+    def number_of_sim(self, number_of_sim):
+        if number_of_sim == 0:
+            raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
+        else:
+            self.sims = number_of_sim
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.count + other.count
