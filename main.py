@@ -1,5 +1,8 @@
 import csv
 
+class InstantiateCSVError(Exception):
+    pass
+
 
 class Item:
     pay_rate = 1
@@ -29,17 +32,26 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open('items.csv', 'r', encoding='windows-1251') as f:
-            reader = csv.reader(f)
-            rows = []
-            for row in reader:
-                rows.append(row)
-            for a in rows[1:len(rows)]:
-                if Item.is_integer(float(a[1])):
-                    a[1] = int(a[1])
-                if Item.is_integer(float(a[2])):
-                    a[2] = int(a[2])
-                cls(a[0], a[1], a[2])
+        try:
+            with open('items.csv', 'r', encoding='windows-1251') as f:
+                reader = csv.reader(f)
+        except:
+            raise FileNotFoundError('Отсутствует файл item.csv')
+        try:
+            with open('items.csv', 'r', encoding='windows-1251') as f:
+                reader = csv.reader(f)
+                rows = []
+                for row in reader:
+                    rows.append(row)
+
+                for a in rows[1:len(rows)]:
+                    if Item.is_integer(float(a[1])):
+                        a[1] = int(a[1])
+                    if Item.is_integer(float(a[2])):
+                        a[2] = int(a[2])
+                    cls(a[0], a[1], a[2])
+        except:
+            raise InstantiateCSVError('Файл items.csv поврежден')
 
     @staticmethod
     def is_integer(num):
@@ -75,14 +87,13 @@ class Phone(Item):
     def number_of_sim(self, number_of_sim):
         if number_of_sim == 0:
             raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
-        if number_of_sim == -1:
-            raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
         else:
             self.sims = number_of_sim
 
     def __add__(self, other):
         if isinstance(other, Item):
             return self.count + other.count
+
 
 class MixinKeyBoard:
 
@@ -100,6 +111,7 @@ class MixinKeyBoard:
         else:
             self.__language = 'EN'
         return self.__language
+
 
 class KeyBoard(MixinKeyBoard, Item):
     pass
