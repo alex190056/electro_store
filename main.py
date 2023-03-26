@@ -73,20 +73,20 @@ class Phone(Item):
 
     def __init__(self, name, price, count, sims):
         super().__init__(name, price, count)
-        self.sims = sims
+        self.__number_of_sim = sims
         # if number_of_sim == 0:
         #     raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
 
     @property
     def number_of_sim(self):
-        return self.sims
+        return self.number_of_sim
 
     @number_of_sim.setter
     def number_of_sim(self, number_of_sim):
         if number_of_sim <= 0:
             raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
         else:
-            self.sims = number_of_sim
+            self.number_of_sim = number_of_sim
 
     def __add__(self, other):
         if isinstance(other, Item):
