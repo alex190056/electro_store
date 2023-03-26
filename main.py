@@ -46,7 +46,7 @@ class Item:
                         a[2] = int(a[2])
                     cls(a[0], a[1], a[2])
         except FileNotFoundError:
-            print('Отсутствует файл item.csv')
+            print('Отсутствует файл items.csv')
         except:
             raise InstantiateCSVError('Файл items.csv поврежден')
 
@@ -83,7 +83,7 @@ class Phone(Item):
 
     @number_of_sim.setter
     def number_of_sim(self, number_of_sim):
-        if number_of_sim == 0:
+        if number_of_sim <= 0:
             raise ValueError('Количество физических SIM-карт должно быть целым числом больше нуля.')
         else:
             self.sims = number_of_sim
